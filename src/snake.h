@@ -2,6 +2,7 @@
 #define SNAKE_H
 
 #include <vector>
+
 #include "SDL.h"
 
 class Snake {
@@ -21,7 +22,7 @@ class Snake {
 
   Direction direction = Direction::kUp;
 
-  float speed{0.1f};
+  float speed{0.05f};
   int size{1};
   bool alive{true};
   float head_x;
@@ -30,7 +31,7 @@ class Snake {
 
  private:
   void UpdateHead();
-  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
+  void UpdateBody(const SDL_Point &current_cell, SDL_Point &prev_cell);
 
   bool growing{false};
   int grid_width;
