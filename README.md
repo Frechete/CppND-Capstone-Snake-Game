@@ -4,8 +4,12 @@ Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com
 
 <img src="snake_game.gif"/>
 
-Added a mandelbrot inspired from https://github.com/lucas-santoni/mandelbrot-c-sdl2
-Each time the snake will eat food, a new mandelbot will be drawn.
+* Added a mandelbrot inspired from https://github.com/lucas-santoni/mandelbrot-c-sdl2 Each time the snake will eat food, a new mandelbot will be drawn.
+<img src="screen.jpg"/>
+<img src="screen02.jpg"/>
+<img src="screen03.jpg"/>
+* Added a score list file.
+* Game can be paused hitting the spacebar, speeded up with +, slow down with -
 ## Dependencies for Running Locally
 * cmake >= 3.7
   * All OSes: [click here for installation instructions](https://cmake.org/install/)

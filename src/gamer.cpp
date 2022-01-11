@@ -25,9 +25,7 @@ void Gamer::gamerAdd(std::string Name, uint32_t score) {
 
 void Gamer::printList() {
   std::sort(_list.begin(), _list.end(),
-            [](auto const &left, auto const &right) {
-              return left.second > right.second;
-            });
+            [](auto const &left, auto const &right ) { return left.second > right.second; });
   for (auto const &gamer : _list) {
     std::cout << gamer.second << "\t\t" << gamer.first << "\n";
   }
