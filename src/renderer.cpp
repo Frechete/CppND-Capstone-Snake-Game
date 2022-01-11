@@ -91,10 +91,12 @@ SDL_Texture *draw_mandelbrot(SDL_Renderer *sdl_renderer, SDL_Surface *surface,
         // Uint32 kBackgroundColor =
         //    MakeColor(y, 0, i * ((255) / fractal.iMax), color);
         reinterpret_cast<Uint32 *>(surface->pixels)[(y * surface->w) + x] =
-            SDL_MapRGB(surface->format,
-                       (1 + sin(i * ((255 - color) / fractal.iMax) * 0.27 + 5)) * 127.0,
-                       (1 + cos(i * ((color) / fractal.iMax) * 0.85)) * 127.0,
-                       (1 + sin(i * ((255) / fractal.iMax) * 0.15)) * 127.0);
+            SDL_MapRGB(
+                surface->format,
+                (1 + sin(i * ((255 - color) / fractal.iMax) * 0.27 + 5)) *
+                    127.0,
+                (1 + cos(i * ((color) / fractal.iMax) * 0.85)) * 127.0,
+                (1 + sin(i * ((255) / fractal.iMax) * 0.15)) * 127.0);
       }
       // SDL_RenderDrawPoint(sdl_renderer, x, y);
       // Render using SDL_RenderDrawPoint() is slow and should
@@ -165,7 +167,8 @@ void Renderer::Render(Snake const &snake, SDL_Point const &food) {
   // SDL_RenderClear(sdl_renderer);
 
   // Render food
-  //(lastmod % 2) ? SDL_RenderCopy(sdl_renderer, pixelsTexture, nullptr, nullptr)
+  //(lastmod % 2) ? SDL_RenderCopy(sdl_renderer, pixelsTexture, nullptr,
+  // nullptr)
   //              : SDL_RenderCopyEx(sdl_renderer, pixelsTexture, nullptr,
   //                                 nullptr, 0, nullptr, SDL_FLIP_VERTICAL);
   SDL_RenderCopy(sdl_renderer, pixelsTexture, nullptr, nullptr);
