@@ -10,27 +10,6 @@
 #define BAIL_OUT 2.0
 #define FLIPS 1
 
-typedef struct Complex {
-  // Real part, imaginary part and a backup
-  double r;
-  double i;
-  double b;
-} Complex;
-
-typedef struct Fractal {
-  // See myFractal.h
-  double xMove;
-  double yMove;
-  double zoom;
-  float iMax;
-} Fractal;
-#define WINDOW_HEIGHT 640
-#define WINDOW_WIDTH 640
-
-constexpr Uint32 MakeColor(uint8_t r, uint8_t g, uint8_t b) {
-  return 0xFF000000 | (((Uint32)r) << 16) | (((Uint32)g) << 8) | b;
-}
-
 template <typename R>
 R _random(R range_from, R range_to) {
   std::random_device rand_dev;
@@ -39,11 +18,29 @@ R _random(R range_from, R range_to) {
   return distr(generator);
 }
 
+/*Adapted from
+ * https://github.com/lucas-santoni/mandelbrot-c-sdl2/blob/master/headers/myFractal.h
+ */
 SDL_Texture *draw_mandelbrot(SDL_Renderer *sdl_renderer, SDL_Surface *surface,
                              int size) {
+  typedef struct Complex {
+    // Real part, imaginary part and a backup
+    double r;
+    double i;
+    double b;
+  } Complex;
+
+  typedef struct Fractal {
+    // See myFractal.h
+    double xMove;
+    double yMove;
+    double zoom;
+    float iMax;
+  } Fractal;
+#define WINDOW_HEIGHT 640
+#define WINDOW_WIDTH 640
   int i;
   Fractal fractal;
-
   // Used to move camera
   fractal.xMove = _random<int>(-1, 1);
   fractal.yMove = _random<int>(-1, 1);
@@ -113,44 +110,6 @@ SDL_Texture *draw_mandelbrot(SDL_Renderer *sdl_renderer, SDL_Surface *surface,
   // SDL_RenderCopy(sdl_renderer, pixelsTexture, nullptr, nullptr);
   // SDL_RenderCopyEx(sdl_renderer, pixelsTexture, nullptr, nullptr, 0, nullptr,
   // SDL_FLIP_VERTICAL); SDL_RenderPresent(sdl_renderer);
-}
-
-void Mandelbrot(SDL_Renderer *sdl_renderer, SDL_Surface *surface, int width,
-                int height, SDL_Rect dirty, double scale = 40.0,
-                double xoffset = 0.0, double yoffset = 0.0) {
-  // uint32_t colors[1000];
-  Uint32 kBackgroundColor = MakeColor(
-      _random<int>(0, 255), _random<int>(0, 255), _random<int>(0, 255));
-  for (int row = dirty.x; row < dirty.y; row++) {
-    double ypos = (row - height / 2) + yoffset;
-    double c_im = ypos * 4.0 / (width * scale);
-
-    for (int col = dirty.h; col < dirty.w; col++) {
-      double xpos = (col - width / 2) + xoffset;
-
-      double c_re = xpos * 4.0 / (width * scale);
-      double x = 0, y = 0;
-      int iteration = 0;
-
-      double x2 = 0;
-      double y2 = 0;
-      while (x2 + y2 <= 4 && iteration < 1000) {
-        y = 2 * x * y + c_im;
-        x = x2 - y2 + c_re;
-        x2 = x * x;
-        y2 = y * y;
-        iteration++;
-      }
-
-      // auto color = kBackgroundColor;
-      reinterpret_cast<Uint32 *>(surface->pixels)[row * width + col] =
-          kBackgroundColor;
-    }
-  }
-  SDL_Texture *pixelsTexture =
-      SDL_CreateTextureFromSurface(sdl_renderer, surface);
-  SDL_RenderCopy(sdl_renderer, pixelsTexture, nullptr, nullptr);
-  SDL_RenderPresent(sdl_renderer);
 }
 
 Renderer::Renderer(const std::size_t screen_width,
