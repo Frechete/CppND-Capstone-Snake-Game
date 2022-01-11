@@ -1,5 +1,5 @@
-#ifndef RENDERER_H
-#define RENDERER_H
+#ifndef SRC_RENDERER_H_
+#define SRC_RENDERER_H_
 
 #include <vector>
 
@@ -12,7 +12,8 @@ class Renderer {
            const std::size_t grid_width, const std::size_t grid_height);
   ~Renderer();
 
-  void Render(Snake const &snake, SDL_Point const &food);
+  void Render(Snake const &snake, SDL_Point const &food,
+              SDL_Point const &blockade);
   void UpdateWindowTitle(int score, int fps);
 
  private:
@@ -27,4 +28,4 @@ class Renderer {
   int lastmod;
 };
 
-#endif
+#endif  // SRC_RENDERER_H_

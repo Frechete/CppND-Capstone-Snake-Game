@@ -14,6 +14,8 @@ Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com
 * Game can be speeded up with +
 * Game can be slowed down with -
 
+* Added a blocker that would kill the snake, if hit.
+
 ## Dependencies for Running Locally
 * cmake >= 3.7
   * All OSes: [click here for installation instructions](https://cmake.org/install/)

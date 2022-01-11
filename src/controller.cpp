@@ -39,8 +39,11 @@ void Controller::HandleInput(bool &running, Snake &snake) const {
           break;
         // STOP!!.
         case SDLK_SPACE:
-          if (snake.speed) {snake.speed = 0;}
-          else {snake.speed += 0.05;}
+          if (snake.speed) {
+            snake.speed = 0;
+          } else {
+            snake.speed += 0.05;
+          }
           break;
         case SDLK_MINUS:
           if (snake.speed > 0) snake.speed -= 0.01;

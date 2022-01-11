@@ -40,10 +40,12 @@ SDL_Texture *draw_mandelbrot(SDL_Renderer *sdl_renderer, SDL_Surface *surface,
   // Used to move camera
   fractal.xMove = _random<int>(-1, 1);
   fractal.yMove = _random<int>(-1, 1);
+  (fractal.xMove > 0) ? (fractal.xMove -= 0.1) : (fractal.xMove += 0.1);
+  (fractal.yMove > 0) ? (fractal.yMove -= 0.1) : (fractal.yMove += 0.1);
   // fractal.yMove = _random<int>(-5, 5) * size;
   int color = _random<int>(0, 255);
   // Used to change the zoom and precision
-  fractal.zoom = static_cast<float>(_random<int>(1, 10) / 10.0);
+  fractal.zoom = static_cast<float>(_random<int>(1, 50) / 10.0);
   fractal.iMax = _random<int>(0 + size, 200);
   int xFrame = WINDOW_WIDTH;
   int yFrame = WINDOW_HEIGHT;
@@ -80,34 +82,21 @@ SDL_Texture *draw_mandelbrot(SDL_Renderer *sdl_renderer, SDL_Surface *surface,
 
       if (i >= fractal.iMax) {
         // In the set
-        // SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, color);
         reinterpret_cast<Uint32 *>(
             surface->pixels)[(x * surface->w) + y + size] = color;
       } else {
         // Not in the set
-        // SDL_SetRenderDrawColor(sdl_renderer, y, 0, i * ((255) /
-        // fractal.iMax),
-        //                       color);
-        // Uint32 kBackgroundColor =
-        //    MakeColor(y, 0, i * ((255) / fractal.iMax), color);
         reinterpret_cast<Uint32 *>(surface->pixels)[(y * surface->w) + x] =
             SDL_MapRGB(
                 surface->format,
                 (1 + sin(i * ((255 - color) / fractal.iMax) * 0.27 + 5)) *
                     127.0,
                 (1 + cos(i * ((color) / fractal.iMax) * 0.85)) * 127.0,
-                (1 + sin(i * ((255) / fractal.iMax) * 0.15)) * 127.0);
+                (1 + sin(i * ((255 * size) / fractal.iMax) * 0.15)) * 127.0);
       }
-      // SDL_RenderDrawPoint(sdl_renderer, x, y);
-      // Render using SDL_RenderDrawPoint() is slow and should
-      // be replaced by SDL_RenderDrawPoints()
     }
   }
-  // SDL_Texture *pixelsTexture =
   return SDL_CreateTextureFromSurface(sdl_renderer, surface);
-  // SDL_RenderCopy(sdl_renderer, pixelsTexture, nullptr, nullptr);
-  // SDL_RenderCopyEx(sdl_renderer, pixelsTexture, nullptr, nullptr, 0, nullptr,
-  // SDL_FLIP_VERTICAL); SDL_RenderPresent(sdl_renderer);
 }
 
 Renderer::Renderer(const std::size_t screen_width,
@@ -140,10 +129,7 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
-  // SDL_Surface *surface = SDL_GetWindowSurface(sdl_window);
-  // sdl_draw_mandelbrot(sdl_renderer, surface, -2, screen_width * 0.25296875f,
-  //                    screen_width, screen_height);
-  // SDL_RenderPresent(sdl_renderer);
+
   SDL_Surface *surface = SDL_GetWindowSurface(sdl_window);
   pixelsTexture = draw_mandelbrot(sdl_renderer, surface, 0);
 }
@@ -153,7 +139,8 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const &snake, SDL_Point const &food) {
+void Renderer::Render(Snake const &snake, SDL_Point const &food,
+                      SDL_Point const &blockade) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -162,25 +149,20 @@ void Renderer::Render(Snake const &snake, SDL_Point const &food) {
     SDL_Surface *surface = SDL_GetWindowSurface(sdl_window);
     pixelsTexture = draw_mandelbrot(sdl_renderer, surface, lastmod);
   }
-  // Clear screen
-  // SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
-  // SDL_RenderClear(sdl_renderer);
 
-  // Render food
-  //(lastmod % 2) ? SDL_RenderCopy(sdl_renderer, pixelsTexture, nullptr,
-  // nullptr)
-  //              : SDL_RenderCopyEx(sdl_renderer, pixelsTexture, nullptr,
-  //                                 nullptr, 0, nullptr, SDL_FLIP_VERTICAL);
   SDL_RenderCopy(sdl_renderer, pixelsTexture, nullptr, nullptr);
   SDL_RenderPresent(sdl_renderer);
 
   SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
   block.x = food.x * block.w;
   block.y = food.y * block.h;
-  // SDL_Surface *surface = SDL_GetWindowSurface(sdl_window);
-  //   sdl_draw_mandelbrot(sdl_renderer, surface, 0, food.x * 0.25296875f);
-  // Mandelbrot(sdl_renderer, surface, block.w, block.h, block);
-  // draw_mandelbrot(sdl_renderer);
+
+  SDL_RenderFillRect(sdl_renderer, &block);
+
+  SDL_SetRenderDrawColor(sdl_renderer, 0x33 - lastmod, 0xCC + lastmod, 0xAA + lastmod, 0x33);
+  block.x = blockade.x * block.w;
+  block.y = blockade.y * block.h;
+
   SDL_RenderFillRect(sdl_renderer, &block);
 
   // Render snake's body
