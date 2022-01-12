@@ -13,7 +13,7 @@ class Gamer {
   void setName(std::string Name);
   std::string getName() const;
   void setScore(uint32_t Score);
-  uint32_t getScore();
+  uint32_t getScore() const;
 
   void gamerAdd(std::string Name, uint32_t score);
   void printList();

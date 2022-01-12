@@ -6,7 +6,7 @@
 #include "snake.h"
 
 void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
-                                 Snake::Direction opposite) const {
+                                 Snake::Direction opposite) {
   if (snake.direction != opposite || snake.size == 1) snake.direction = input;
   return;
 }

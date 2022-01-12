@@ -15,7 +15,7 @@ std::string Gamer::getName() const { return _name; }
 
 void Gamer::setScore(const uint32_t Score) { _score = Score; }
 
-uint32_t Gamer::getScore() { return _score; }
+uint32_t Gamer::getScore() const { return _score; }
 
 void Gamer::gamerAdd(std::string Name, uint32_t score) {
   // std::unique_ptr<Gamer> gamer;
