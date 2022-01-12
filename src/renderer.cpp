@@ -17,8 +17,8 @@ R _random(R range_from, R range_to) {
 
 // Adapted from
 // https://github.com/lucas-santoni/mandelbrot-c-sdl2/blob/master/headers/myFractal.h
-SDL_Texture *draw_mandelbrot(SDL_Renderer *sdl_renderer, SDL_Surface *surface,
-                             int size) {
+SDL_Texture *Renderer::draw_mandelbrot(SDL_Renderer *sdl_renderer,
+                                       SDL_Surface *surface, int size) {
   typedef struct Complex {
     // Real part, imaginary part and a backup
     double r;
@@ -132,6 +132,11 @@ Renderer::Renderer(const std::size_t screen_width,
 
   SDL_Surface *surface = SDL_GetWindowSurface(sdl_window);
   pixelsTexture = draw_mandelbrot(sdl_renderer, surface, 0);
+  if (TTF_Init() < 0) {
+    // Error handling code
+    std::cerr << "TTF_INIT RETURNS: " << TTF_Init() << "\n";
+  }
+  font = TTF_OpenFont("../src/FreeSans.ttf", 25);
 }
 
 Renderer::~Renderer() {
@@ -159,7 +164,8 @@ void Renderer::Render(Snake const &snake, SDL_Point const &food,
 
   SDL_RenderFillRect(sdl_renderer, &block);
 
-  SDL_SetRenderDrawColor(sdl_renderer, 0x33 - lastmod, 0xCC + lastmod, 0xAA + lastmod, 0x33);
+  SDL_SetRenderDrawColor(sdl_renderer, 0x33 - lastmod, 0xCC + lastmod,
+                         0xAA + lastmod, 0x33);
   block.x = blockade.x * block.w;
   block.y = blockade.y * block.h;
 
@@ -180,6 +186,31 @@ void Renderer::Render(Snake const &snake, SDL_Point const &food,
     SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
   } else {
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
+
+    SDL_Color color = SDL_Color();
+    std::stringstream ss;
+
+    if (font == NULL) {
+      std::cerr << "TTF_FONT not found."
+                << "\n";
+    } else {
+      ss << "GAME OVER!";
+
+      color.r = 255;
+      color.g = 0;
+      color.b = 255;
+
+      SDL_Surface *surfaceMessage =
+          TTF_RenderText_Solid(font, ss.str().c_str(), color);
+      SDL_Texture *Message =
+          SDL_CreateTextureFromSurface(sdl_renderer, surfaceMessage);
+      SDL_Rect rect;
+      rect.x = block.x + 5;
+      rect.y = block.y + 5;
+      rect.w = 200;
+      rect.h = 200;
+      SDL_RenderCopy(sdl_renderer, Message, nullptr, &rect);
+    }
   }
   SDL_RenderFillRect(sdl_renderer, &block);
 
