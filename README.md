@@ -10,11 +10,15 @@ Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com
 * Added a score list file.
 <img src="screen02.jpg"/>
 
+* Profiled and fixed bugs. The mendelbot uses a lot of CPU, beauty won't come for free.
+<img src="callgrind.png"/>
+
 * Game can be paused hitting the spacebar
 * Game can be speeded up with +
 * Game can be slowed down with -
 
 * Added a blocker that would kill the snake, if hit.
+* Added a "GAME OVER!" message in the canvas.
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
@@ -33,10 +37,19 @@ Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com
 
 ## Basic Build Instructions
 
+SDL libraries required. Install with:
+`sudo apt-get install libsdl2-dev`
+`sudo apt-get install libsdl2-ttf-dev`
+
 1. Clone this repo.
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./SnakeGame`.
+
+Extras:
+- The code will be automatically formatted running:
+`make clangformat`
+- Enabling "actions" in github, the project will be built and cmake tests executed
 
 
 ## CC Attribution-ShareAlike 4.0 International

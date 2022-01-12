@@ -44,6 +44,7 @@ SDL_Texture *Renderer::draw_mandelbrot(SDL_Renderer *sdl_renderer,
   (fractal.yMove > 0) ? (fractal.yMove -= 0.1) : (fractal.yMove += 0.1);
   // fractal.yMove = _random<int>(-5, 5) * size;
   int color = _random<int>(0, 255);
+  Uint32 extcol = color * size * size * size ^ 0xffffff;
   // Used to change the zoom and precision
   fractal.zoom = static_cast<float>(_random<int>(1, 50) / 10.0);
   fractal.iMax = _random<int>(0 + size, 200);
@@ -82,8 +83,8 @@ SDL_Texture *Renderer::draw_mandelbrot(SDL_Renderer *sdl_renderer,
 
       if (i >= fractal.iMax) {
         // In the set
-        reinterpret_cast<Uint32 *>(
-            surface->pixels)[(x * surface->w) + y + size] = color;
+        reinterpret_cast<Uint32 *>(surface->pixels)[(y * surface->w) + x] =
+            extcol;
       } else {
         // Not in the set
         reinterpret_cast<Uint32 *>(surface->pixels)[(y * surface->w) + x] =
@@ -92,7 +93,7 @@ SDL_Texture *Renderer::draw_mandelbrot(SDL_Renderer *sdl_renderer,
                 (1 + sin(i * ((255 - color) / fractal.iMax) * 0.27 + 5)) *
                     127.0,
                 (1 + cos(i * ((color) / fractal.iMax) * 0.85)) * 127.0,
-                (1 + sin(i * ((255 * size) / fractal.iMax) * 0.15)) * 127.0);
+                (1 + sin(i * ((255) / fractal.iMax) * 0.15)) * 127.0);
       }
     }
   }
