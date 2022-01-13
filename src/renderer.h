@@ -5,6 +5,7 @@
 
 #include "SDL.h"
 #include "SDL_ttf.h"
+#include "blockade.h"
 #include "snake.h"
 
 class Renderer {
@@ -14,7 +15,7 @@ class Renderer {
   ~Renderer();
 
   void Render(Snake const &snake, SDL_Point const &food,
-              SDL_Point const &blockade);
+              SDL_Point const &staticblockade, Blockade const &blockade);
   void UpdateWindowTitle(int score, int fps);
 
  private:

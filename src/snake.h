@@ -32,7 +32,7 @@ class Snake {
  private:
   void UpdateHead();
   void UpdateBody(const SDL_Point &current_head_cell,
-                  SDL_Point &prev_head_cell);
+                  const SDL_Point &prev_head_cell);
 
   bool growing{false};
   int grid_width;

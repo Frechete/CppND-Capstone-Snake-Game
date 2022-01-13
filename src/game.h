@@ -4,6 +4,7 @@
 #include <random>
 
 #include "SDL.h"
+#include "blockade.h"
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
@@ -18,8 +19,9 @@ class Game {
 
  private:
   Snake snake;
+  Blockade blockade;
   SDL_Point food;
-  SDL_Point blockade;
+  SDL_Point staticblockade;
 
   std::random_device dev;
   std::mt19937 engine;

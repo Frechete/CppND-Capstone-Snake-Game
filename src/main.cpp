@@ -27,8 +27,8 @@ int main() {
   std::cout << "Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";
   std::cout << "---------------------------------\n";
-  Gamer gamers(Nickname, 0);
-  gamers.LoadList(kFile);
+  Gamer gamers(kFile);
+  // gamers.LoadList(kFile);
   gamers.gamerAdd(Nickname, game.GetScore());
   gamers.printList();
   gamers.SaveList(kFile);

@@ -9,7 +9,7 @@
 
 class Gamer {
  public:
-  Gamer(const std::string &Name, uint32_t Score);
+  explicit Gamer(const std::string &File);
   void setName(std::string Name);
   std::string getName() const;
   void setScore(uint32_t Score);
@@ -22,7 +22,7 @@ class Gamer {
 
  private:
   std::string _name;
-  uint32_t _score;
+  uint32_t _score{0};
   std::vector<std::pair<std::string, uint32_t>> _list;
 };
 

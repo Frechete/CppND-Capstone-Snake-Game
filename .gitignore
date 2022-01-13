@@ -1,6 +1,6 @@
 
 build/*
-traffic.*
+Snakes.*
 # Prerequisites
 *.d
 

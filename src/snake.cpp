@@ -46,7 +46,7 @@ void Snake::UpdateHead() {
 }
 
 void Snake::UpdateBody(const SDL_Point &current_head_cell,
-                       SDL_Point &prev_head_cell) {
+                       const SDL_Point &prev_head_cell) {
   // Add previous head location to vector
   body.push_back(prev_head_cell);
 
@@ -59,11 +59,6 @@ void Snake::UpdateBody(const SDL_Point &current_head_cell,
   }
 
   // Check if the snake has died.
-  /*for (auto const &item : body) {
-    if (current_head_cell.x == item.x && current_head_cell.y == item.y) {
-      alive = false;
-    }
-  }*/
   alive = std::none_of(
       body.begin(), body.end(), [&current_head_cell](const SDL_Point &item) {
         return (current_head_cell.x == item.x && current_head_cell.y == item.y);
@@ -71,17 +66,11 @@ void Snake::UpdateBody(const SDL_Point &current_head_cell,
 }
 void Snake::GrowBody() { growing = true; }
 
-// Inefficient method to check if cell is occupied by snake.
 bool Snake::SnakeCell(int x, int y) {
   if (x == static_cast<int>(head_x) && y == static_cast<int>(head_y)) {
     return true;
   }
-  /*for (auto const &item : body) {
-    if (x == item.x && y == item.y) {
-      return true;
-    }
-  }
-  return false;*/
+
   return std::any_of(body.begin(), body.end(), [&x, &y](const SDL_Point &item) {
     return (x == item.x && y == item.y);
   });

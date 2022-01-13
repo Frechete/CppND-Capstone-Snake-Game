@@ -69,7 +69,6 @@ SDL_Texture *Renderer::draw_mandelbrot(SDL_Renderer *sdl_renderer,
 
       z.r = 0;
       z.i = 0;
-
       i = 0;
 
       // Iterate in order to know if a certain point is in the set or not
@@ -146,7 +145,8 @@ Renderer::~Renderer() {
 }
 
 void Renderer::Render(Snake const &snake, SDL_Point const &food,
-                      SDL_Point const &blockade) {
+                      SDL_Point const &staticblockade,
+                      Blockade const &blockade) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -167,8 +167,13 @@ void Renderer::Render(Snake const &snake, SDL_Point const &food,
 
   SDL_SetRenderDrawColor(sdl_renderer, 0x33 - lastmod, 0xCC + lastmod,
                          0xAA + lastmod, 0x33);
-  block.x = blockade.x * block.w;
-  block.y = blockade.y * block.h;
+  block.x = staticblockade.x * block.w;
+  block.y = staticblockade.y * block.h;
+
+  SDL_RenderFillRect(sdl_renderer, &block);
+
+  block.x = static_cast<int>(blockade.head_x) * block.w;
+  block.y = static_cast<int>(blockade.head_y) * block.h;
 
   SDL_RenderFillRect(sdl_renderer, &block);
 

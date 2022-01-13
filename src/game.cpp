@@ -8,7 +8,8 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)) {
+      random_h(0, static_cast<int>(grid_height - 1)),
+      blockade(grid_width, grid_height) {
   PlaceFood();
   PlaceBlockade();
 }
@@ -28,7 +29,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food, blockade);
+    renderer.Render(snake, food, staticblockade, blockade);
 
     frame_end = SDL_GetTicks();
 
@@ -76,8 +77,8 @@ void Game::PlaceBlockade() {
     // Check that the location is not occupied by a snake item before placing
     // blockade.
     if (!snake.SnakeCell(x, y)) {
-      blockade.x = x;
-      blockade.y = y;
+      staticblockade.x = x;
+      staticblockade.y = y;
       return;
     }
   }
@@ -101,8 +102,13 @@ void Game::Update() {
     snake.speed += 0.01;
   }
   // Check if there's blockade over here
-  else if (blockade.x == new_x && blockade.y == new_y) {
+  else if ((staticblockade.x == new_x && staticblockade.y == new_y) ||
+           (static_cast<int>(blockade.head_x) == new_x &&
+            static_cast<int>(blockade.head_y) == new_y) ||
+           snake.SnakeCell(blockade.point.x, blockade.point.y)) {
     snake.alive = false;
+  } else {
+    blockade.Update(new_x, new_y);
   }
 }
 

@@ -6,8 +6,7 @@
 #include <memory>
 #include <sstream>
 
-Gamer::Gamer(const std::string &Name, uint32_t Score)
-    : _name(Name), _score(Score) {}
+Gamer::Gamer(const std::string &File) { LoadList(File); }
 
 void Gamer::setName(const std::string Name) { _name = Name; }
 

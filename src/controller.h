@@ -5,7 +5,7 @@
 
 class Controller {
  public:
-  void HandleInput(bool &running, Snake &snake) const;
+  static void HandleInput(bool &running, Snake &snake);
 
  private:
   static void ChangeDirection(Snake &snake, Snake::Direction input,

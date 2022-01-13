@@ -18,7 +18,10 @@ Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com
 * Game can be slowed down with -
 
 * Added a blocker that would kill the snake, if hit.
+* Added a killer blocker following the snake.
 * Added a "GAME OVER!" message in the canvas.
+
+<img src="schematics.png"/>
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
