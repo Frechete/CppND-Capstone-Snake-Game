@@ -1,8 +1,10 @@
-# CPPND: Capstone Snake Game Example
+# CPPND: Capstone Snake Game
 
 Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
 
 <img src="snake_game.gif"/>
+
+# New functionalities
 
 * Added a mandelbrot inspired from https://github.com/lucas-santoni/mandelbrot-c-sdl2 Each time the snake will eat food, a new mandelbot will be drawn.
 <img src="screen.jpg"/>
@@ -22,6 +24,21 @@ Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com
 * Added a "GAME OVER!" message in the canvas.
 
 <img src="schematics.png"/>
+
+# Project rubric
+
+Loops, Functions, I/O:
+- The project demonstrates an understanding of C++ functions and control structures.
+- The project reads data from a file and process the data, or the program writes data to a file.
+- The project accepts user input and processes the input.
+
+Object Oriented Programming
+- The project uses Object Oriented Programming techniques.
+- Classes use appropriate access specifiers for class members.
+- Class constructors utilize member initialization lists.
+- Classes abstract implementation details from their interfaces.
+- Classes encapsulate behavior.
+- Templates generalize functions in the project.
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
