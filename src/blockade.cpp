@@ -5,8 +5,7 @@
 #include <iostream>
 
 void Blockade::Update(int x, int y) {
-  point.x = static_cast<int>(head_x);
-  point.y = static_cast<int>(head_y);
+  Direction direction = Direction::kUp;
 
   if (abs(head_x - x) > abs(head_y - y)) {
     if (x < static_cast<int>(head_x)) {
@@ -43,4 +42,6 @@ void Blockade::Update(int x, int y) {
   // Wrap  to the beginning if going off of the screen.
   head_x = fmod(head_x + _grid_width, _grid_width);
   head_y = fmod(head_y + _grid_height, _grid_height);
+  point.x = static_cast<int>(head_x);
+  point.y = static_cast<int>(head_y);
 }
