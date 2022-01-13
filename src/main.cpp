@@ -12,7 +12,7 @@ int main() {
   constexpr std::size_t kScreenHeight{640};
   constexpr std::size_t kGridWidth{32};
   constexpr std::size_t kGridHeight{32};
-  std::string kFile{"scores.txt"};
+  std::string kFile{"../scores.txt"};
 
   std::string Nickname;
   std::cout << "Enter Nickname: ";

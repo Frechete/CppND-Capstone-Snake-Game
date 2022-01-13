@@ -137,6 +137,7 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "TTF_INIT RETURNS: " << TTF_Init() << "\n";
   }
   font = TTF_OpenFont("../src/FreeSans.ttf", 25);
+  messageTexture = nullptr;
 }
 
 Renderer::~Renderer() {
@@ -192,36 +193,40 @@ void Renderer::Render(Snake const &snake, SDL_Point const &food,
     SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
   } else {
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
+    if (nullptr == messageTexture) createTextureMessage(sdl_renderer);
 
-    SDL_Color color = SDL_Color();
-    std::stringstream ss;
-
-    if (font == NULL) {
-      std::cerr << "TTF_FONT not found."
-                << "\n";
-    } else {
-      ss << "GAME OVER!";
-
-      color.r = 255;
-      color.g = 0;
-      color.b = 255;
-
-      SDL_Surface *surfaceMessage =
-          TTF_RenderText_Solid(font, ss.str().c_str(), color);
-      SDL_Texture *Message =
-          SDL_CreateTextureFromSurface(sdl_renderer, surfaceMessage);
-      SDL_Rect rect;
-      rect.x = block.x + 5;
-      rect.y = block.y + 5;
-      rect.w = 200;
-      rect.h = 200;
-      SDL_RenderCopy(sdl_renderer, Message, nullptr, &rect);
-    }
+    SDL_Rect rect;
+    rect.x = block.x + 5;
+    rect.y = block.y + 5;
+    rect.w = 200;
+    rect.h = 200;
+    SDL_RenderCopy(sdl_renderer, messageTexture, nullptr, &rect);
   }
+
   SDL_RenderFillRect(sdl_renderer, &block);
 
   // Update Screen
   SDL_RenderPresent(sdl_renderer);
+}
+
+void Renderer::createTextureMessage(SDL_Renderer *sdl_renderer) {
+  SDL_Color color = SDL_Color();
+  std::stringstream ss;
+
+  if (font == NULL) {
+    std::cerr << "TTF_FONT not found."
+              << "\n";
+  } else {
+    ss << "GAME OVER!";
+
+    color.r = 255;
+    color.g = 0;
+    color.b = 255;
+
+    SDL_Surface *surfaceMessage =
+        TTF_RenderText_Solid(font, ss.str().c_str(), color);
+    messageTexture = SDL_CreateTextureFromSurface(sdl_renderer, surfaceMessage);
+  }
 }
 
 void Renderer::UpdateWindowTitle(int score, int fps) {

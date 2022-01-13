@@ -22,10 +22,12 @@ class Renderer {
   SDL_Window *sdl_window;
   SDL_Renderer *sdl_renderer;
   SDL_Texture *pixelsTexture;
+  SDL_Texture *messageTexture;
   TTF_Font *font;
 
   SDL_Texture *draw_mandelbrot(SDL_Renderer *sdl_renderer, SDL_Surface *surface,
                                int size);
+  void createTextureMessage(SDL_Renderer *sdl_renderer);
   const std::size_t screen_width;
   const std::size_t screen_height;
   const std::size_t grid_width;

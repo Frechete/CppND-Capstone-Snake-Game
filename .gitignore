@@ -1,6 +1,7 @@
 
 build/*
 Snakes.*
+scores.txt
 # Prerequisites
 *.d
 
